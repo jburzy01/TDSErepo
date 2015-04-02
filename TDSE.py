@@ -66,17 +66,25 @@ def init_psi(a,numX,deltaX):
 
 	return psi_init
 
+def buildPotential(a,b,numX,deltaX):
+	V = np.zeros(numX)
+	x=a
+	for i in range(numX):
+		V[i] = .5*x**2
+		x+=deltaX	
+
+	return V
 
 # constructs the initial wave function
 def wavePacket(x):
-	return cmath.exp(-(x)**2)
-#	return cmath.cos((np.pi * x)/10)
+#	return cmath.exp(-(x-2)**2)
+	return cmath.cos((np.pi * x)/10)
 
 # run parameters
 a=-5
 b=5
 ti=0
-tf=1
+tf=5
 deltaX=.1
 deltaT=.01
 
@@ -88,7 +96,7 @@ numT = int((tf-ti)/deltaT)
 psi_init = init_psi(a,numX,deltaX)
 
 # set the potential
-V = np.zeros(numX)
+V = buildPotential(a,b,numX,deltaX)
 
 # build the matrix
 mat = buildMatrix(numX,numT,V,deltaX,deltaT)
@@ -103,14 +111,6 @@ for n in range(numT):
 	for i in range(numX):
 		prob_density[n,i] = abs(psi[n,i])**2
 
-#for i in range(numT):
-#	print psi[i,:]
-
-
-#plt.plot(abs(psi[5,:])**2)
-#plt.show()
-
-#H = np.array([[1,2,3,4],[5,6,7,8],[9,10,11,12],[13,14,15,16]]) 
 
 fig = plt.figure(figsize=(6, 3.2))
 
