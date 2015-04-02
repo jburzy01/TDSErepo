@@ -22,13 +22,14 @@ def buildMatrix(numX, numT, V, deltaX, deltaT):
 def finiteDifference(numX, numT, deltaX, deltaT, matrix, psi_init):
 	psi = np.zeros((numT,numX), dtype=complex)
 	psi[0,:] = psi_init
-
 	# boundary conditions
 	psi[:,0] = 0
 	psi[:,-1] = 0
 
 	for n in range(numT-1):
-		psi[n+1,:] = np.linalg.solve(matrix, psi[n,:])
+		psi[n+1,:] = np.linalg.solve(matrix, -1j*psi[n,:]/deltaT)
+		psi[n+1,0] = 0
+		psi[n+1,-1] = 0
 		psi[n+1,:] = normalize(psi[n+1,:])
 
 
@@ -53,12 +54,13 @@ def init_psi(a,numX,deltaX):
 	psi_init = np.zeros(numX, dtype=complex)
 
 	x=a
-	for i in range(1,numX-1):
+	for i in range(numX):
 		psi_init[i] = x
 		x+=deltaX
 
 	psi_init = map(wavePacket,psi_init)
-
+	psi_init[0] = 0
+	psi_init[-1] = 0
 	# normalize the wavefunction
 	psi_init = normalize(psi_init)
 
@@ -67,13 +69,13 @@ def init_psi(a,numX,deltaX):
 
 # constructs the initial wave function
 def wavePacket(x):
-	return cmath.exp(-(x-2)**2)
+	return cmath.cos((np.pi * x)/10)
 
 # run parameters
 a=-5
 b=5
 ti=0
-tf=2
+tf=1
 deltaX=.1
 deltaT=.01
 
@@ -89,13 +91,13 @@ V = np.zeros(numX)
 
 # build the matrix
 mat = buildMatrix(numX,numT,V,deltaX,deltaT)
-
+#print mat
 # solve for psi
 psi = finiteDifference(numX, numT, deltaX, deltaT, mat, psi_init)
 
-for i in range(numT):
-	print psi[i,:]
+#for i in range(numT):
+#	print psi[i,:]
 
 
-plt.plot(abs(psi[20,:])**2)
+plt.plot(abs(psi[5,:])**2)
 plt.show()
