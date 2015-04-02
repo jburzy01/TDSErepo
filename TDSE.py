@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 # builds the matrix needed to solve the TDSE
 def buildMatrix(numX, numT, V, deltaX, deltaT):
-	array = np.zeros((numX,numT), dtype=complex)
-	matrix = np.matrix(array)
+	matrix = np.zeros((numX,numT), dtype=complex)
+#	matrix = np.matrix(matrix)
 	matrix[0,0] = 1
 	matrix[-1,-1] = 1
 
@@ -29,24 +29,45 @@ def finiteDifference(numX, numT, deltaX, deltaT, matrix, psi_init):
 	psi[-1,:] = 0
 
 	for n in range(numT-1):
-		psi[n+1,:] = numpy.linalg.solve(matrix, psi[n,:])
+		psi[n+1,:] = np.linalg.solve(matrix, psi[n,:])
 		psi[n+1,:] = normalize(psi[n+1,:])
 
 	return psi
 
 # normalizes a given vector
 def normalize(vector):
+
 	normconst = 0
 	length = len(vector)
 
 	for i in range(length):
 		normconst += abs(vector[i])**2
+	for i in range(length):
+		vector[i] = vector[i]/math.sqrt(normconst)
 
-	vector /= normconst
+	return vector 
+
+# builds the initial wave function
+def init_psi(a,numX,deltaX):
+	# initialize the wavefunction
+	psi_init = np.zeros(numX, dtype=complex)
+
+	x=a
+	for i in range(numX):
+		psi_init[i] = x
+		x+=deltaX
+
+	psi_init = map(wavePacket,psi_init)
+
+	# normalize the wavefunction
+	psi_init = normalize(psi_init)
+
+	return psi_init
+
 
 # constructs the initial wave function
 def wavePacket(x):
-	return math.exp(-(x)**2) + 0J
+	return math.exp(-(x)**2)
 
 # run parameters
 a=0
@@ -60,27 +81,23 @@ deltaT=.1
 numX = int((b-a)/deltaX)
 numT = int((tf-ti)/deltaT)
 
-# initialize the wavefunction
-psi_init = np.arange(a,b,deltaX)
+# initialize psi
+psi_init = init_psi(a,numX,deltaX)
 
+sm = 0
 for i in range(numX):
-	psi_init[i] = psi_init[i] + 0J
+	sm += abs(psi_init[i])**2
 
-psi_init = map(wavePacket,psi_init)
-
-
-# normalize the wavefunction
-psi_init = normalize(psi_init)
+print sm
 
 # set the potential
 V = np.zeros(numX)
 
 # build the matrix
 mat = buildMatrix(numX,numT,V,deltaX,deltaT)
-print mat
 
 # solve for psi
-psi = finiteDifference(numX, numT, mat, deltaX, deltaT, psi_init)
+psi = finiteDifference(numX, numT, deltaX, deltaT, mat, psi_init)
 print psi
 
 
