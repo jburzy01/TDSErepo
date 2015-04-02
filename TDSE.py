@@ -5,12 +5,11 @@ import matplotlib.pyplot as plt
 
 # builds the matrix needed to solve the TDSE
 def buildMatrix(numX, numT, V, deltaX, deltaT):
-	matrix = np.zeros((numX,numT), dtype=complex)
-#	matrix = np.matrix(matrix)
+	matrix = np.zeros((numX,numX), dtype=complex)
 	matrix[0,0] = 1
 	matrix[-1,-1] = 1
 
-	for n in range(1,numT-1):
+	for n in range(1,numX-1):
 		for i in range(numX):
 			if i==n:
 				matrix[n,i] = V[i] - 2/deltaX**2 - 1j/deltaT
@@ -21,16 +20,17 @@ def buildMatrix(numX, numT, V, deltaX, deltaT):
 
 # solves for psi using the finite difference algorithm
 def finiteDifference(numX, numT, deltaX, deltaT, matrix, psi_init):
-	psi = np.zeros((numX,numT), dtype=complex)
-	psi[:,0] = psi_init
+	psi = np.zeros((numT,numX), dtype=complex)
+	psi[0,:] = psi_init
 
 	# boundary conditions
-	psi[0,:] = 0
-	psi[-1,:] = 0
+	psi[:,0] = 0
+	psi[:,-1] = 0
 
 	for n in range(numT-1):
 		psi[n+1,:] = np.linalg.solve(matrix, psi[n,:])
 		psi[n+1,:] = normalize(psi[n+1,:])
+
 
 	return psi
 
@@ -53,7 +53,7 @@ def init_psi(a,numX,deltaX):
 	psi_init = np.zeros(numX, dtype=complex)
 
 	x=a
-	for i in range(numX):
+	for i in range(1,numX-1):
 		psi_init[i] = x
 		x+=deltaX
 
@@ -67,15 +67,15 @@ def init_psi(a,numX,deltaX):
 
 # constructs the initial wave function
 def wavePacket(x):
-	return math.exp(-(x)**2)
+	return cmath.exp(-(x-2)**2)
 
 # run parameters
-a=0
-b=1
+a=-5
+b=5
 ti=0
-tf=1
+tf=2
 deltaX=.1
-deltaT=.1
+deltaT=.01
 
 # matrix dimensions
 numX = int((b-a)/deltaX)
@@ -83,12 +83,6 @@ numT = int((tf-ti)/deltaT)
 
 # initialize psi
 psi_init = init_psi(a,numX,deltaX)
-
-sm = 0
-for i in range(numX):
-	sm += abs(psi_init[i])**2
-
-print sm
 
 # set the potential
 V = np.zeros(numX)
@@ -98,6 +92,10 @@ mat = buildMatrix(numX,numT,V,deltaX,deltaT)
 
 # solve for psi
 psi = finiteDifference(numX, numT, deltaX, deltaT, mat, psi_init)
-print psi
+
+for i in range(numT):
+	print psi[i,:]
 
 
+plt.plot(abs(psi[20,:])**2)
+plt.show()
