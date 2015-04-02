@@ -28,7 +28,21 @@ def finiteDifference(numX, numT, deltaX, deltaT, matrix, psi_init):
 	psi[0,:] = 0
 	psi[-1,:] = 0
 
+	for n in range(numT-1):
+		psi[n+1,:] = numpy.linalg.solve(matrix, psi[n,:])
+		psi[n+1,:] = normalize(psi[n+1,:])
+
 	return psi
+
+# normalizes a given vector
+def normalize(vector):
+	normconst = 0
+	length = len(vector)
+
+	for i in range(length):
+		normconst += abs(vector[i])**2
+
+	vector /= normconst
 
 # constructs the initial wave function
 def wavePacket(x):
@@ -52,15 +66,11 @@ psi_init = np.arange(a,b,deltaX)
 for i in range(numX):
 	psi_init[i] = psi_init[i] + 0J
 
-psi_init2 = map(wavePacket,psi_init)
+psi_init = map(wavePacket,psi_init)
 
 
 # normalize the wavefunction
-normfactor = 0;
-for i in range(numX):
-	normfactor+=abs(psi_init[i])**2
-
-psi_init[:] /= normfactor
+psi_init = normalize(psi_init)
 
 # set the potential
 V = np.zeros(numX)
