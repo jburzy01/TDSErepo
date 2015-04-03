@@ -20,3 +20,6 @@ class Range:
 
     def get_num_divisions(self):
         return self.num_divisions
+
+    def center_function(self, f):
+        return lambda x : f(x-self.get_max()/2)
