@@ -12,9 +12,9 @@ def buildMatrix(numX, numT, V, deltaX, deltaT):
 	for n in range(1,numX-1):
 		for i in range(numX):
 			if i==n:
-				matrix[n,i] = V[i] - 2/deltaX**2 - 1j/deltaT
+				matrix[n,i] = V[i] + 2/deltaX**2 - 1j/deltaT
 			elif abs(i-n) == 1:
-				matrix[n,i] = 1/deltaX**2
+				matrix[n,i] = -1/deltaX**2
 
 	return matrix
 
@@ -71,9 +71,9 @@ def buildPotential(a,b,numX,deltaX):
 	x=a
 
 	# harmonic oscillator
-#	for i in range(numX):
-#		V[i] = .5*x**2
-#		x+=deltaX	
+	for i in range(numX):
+		V[i] = .5*x**2
+		x+=deltaX	
 
 	# traingular well
 #	for i in range(numX):
@@ -91,7 +91,7 @@ def buildPotential(a,b,numX,deltaX):
 
 # constructs the initial wave function
 def wavePacket(x):
-	return cmath.exp(-(x)**2)
+	return cmath.exp(-(x+3)**2)
 #	return A*cmath.exp(-1j*x) + B*cmath.exp(1j*x)
 #	return cmath.cos((np.pi * x)/10)
 
@@ -99,7 +99,7 @@ def wavePacket(x):
 a=-5
 b=5
 ti=0
-tf=10
+tf=5
 deltaX=.1
 deltaT=.01
 
