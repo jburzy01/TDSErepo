@@ -69,22 +69,37 @@ def init_psi(a,numX,deltaX):
 def buildPotential(a,b,numX,deltaX):
 	V = np.zeros(numX)
 	x=a
-	for i in range(numX):
-		V[i] = .5*x**2
-		x+=deltaX	
+
+	# harmonic oscillator
+#	for i in range(numX):
+#		V[i] = .5*x**2
+#		x+=deltaX	
+
+	# traingular well
+#	for i in range(numX):
+#		V[i] = abs(x)
+#		x+=deltaX	
+
+	# Kronig Penny Crystal
+#	for i in range(numX):
+#		V[i] = .5*x**2
+#		x+=deltaX	
+
+
 
 	return V
 
 # constructs the initial wave function
 def wavePacket(x):
-#	return cmath.exp(-(x-2)**2)
-	return cmath.cos((np.pi * x)/10)
+	return cmath.exp(-(x)**2)
+#	return A*cmath.exp(-1j*x) + B*cmath.exp(1j*x)
+#	return cmath.cos((np.pi * x)/10)
 
 # run parameters
 a=-5
 b=5
 ti=0
-tf=5
+tf=10
 deltaX=.1
 deltaT=.01
 
