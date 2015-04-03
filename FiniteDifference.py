@@ -20,6 +20,36 @@ def build_matrix(xs, ts, potential):
                 matrix[n,i] = -1/delta_x**2
     return matrix
 
+def build_matrix_left(xs, ts, potential):
+    num_x = xs.get_num_divisions()
+    delta_x = xs.get_delta()
+    delta_t = ts.get_delta()
+    matrix = np.zeros((num_x, num_x), dtype=complex)
+    matrix[0,0] = 1.0
+    matrix[-1,-1] = 1.0
+    for n in xrange(1,num_x-1):
+        for i in xrange(num_x):
+            if i==n:
+                matrix[n,i] = 1 + 1j*delta_t/delta_x**2 + 1j*delta_t*potential[i]/2
+            elif abs(i-n) == 1:
+                matrix[n,i] = -1j*delta_t/(2*delta_x**2)
+    return matrix
+
+def build_matrix_right(xs, ts, potential):
+    num_x = xs.get_num_divisions()
+    delta_x = xs.get_delta()
+    delta_t = ts.get_delta()
+    matrix = np.zeros((num_x, num_x), dtype=complex)
+    matrix[0,0] = 1.0
+    matrix[-1,-1] = 1.0
+    for n in xrange(1,num_x-1):
+        for i in xrange(num_x):
+            if i==n:
+                matrix[n,i] = 1 - 1j*delta_t/delta_x**2 + 1j*delta_t*potential[i]/2
+            elif abs(i-n) == 1:
+                matrix[n,i] = 1j*delta_t/(2*delta_x**2)
+    return matrix
+
 def finite_difference(xs, ts, psi_init, matrix):
     num_x = xs.get_num_divisions()
     num_t = ts.get_num_divisions()
