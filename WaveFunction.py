@@ -7,9 +7,8 @@ def init(xs, wave_fun):
     psi[-1] = 0.0
     return psi
 
-def wave_packet(xs):
-    x_max = xs.get_max()
-    return lambda x: np.cos((np.pi*(x-x_max/2))/10)
+def wave_packet(x):
+    return np.cos((np.pi*x)/10)
 
 def normalize(vector):
     normconst = 0.0
