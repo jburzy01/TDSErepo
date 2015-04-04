@@ -11,7 +11,10 @@ def wave_packet(start_x):
     return lambda x : np.cos((np.pi*(x-start_x))/10)
 
 def gaussian_wave(start_x):
-    return lambda x : np.exp(-(x-start_x))
+    return lambda x : np.exp(-(x-start_x)**2)
+
+def traveling_wave(k, start_x):
+	return lambda x : np.exp(1j*k*(x-start_x)-(x-start_x)**2)
 
 def normalize(vector):
     normconst = 0.0
