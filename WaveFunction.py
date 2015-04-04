@@ -7,8 +7,11 @@ def init(xs, wave_fun):
     psi[-1] = 0.0
     return psi
 
-def wave_packet(x):
-    return np.cos((np.pi*x)/10)
+def wave_packet(start_x):
+    return lambda x : np.cos((np.pi*(x-start_x))/10)
+
+def gaussian_wave(start_x):
+    return lambda x : np.exp(-(x-start_x))
 
 def normalize(vector):
     normconst = 0.0
