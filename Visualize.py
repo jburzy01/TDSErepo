@@ -20,17 +20,14 @@ def heatmap(solution):
     plt.show()
 
 def animate_wave(xs, ts, solution):
-
-	map_val = lambda x : abs(x)**2
- 	map_row = lambda row : map_val(row)
-	prob_density = map_row(solution)
-
-	fig = plt.figure()
-	plts = []             # get ready to populate this list the Line artists to be plotted
-	plt.hold("off")
-	for i in range(ts.get_num_divisions()):
-	    p, = plt.plot(prob_density[i,:], 'k')   # this is how you'd plot a single line...
-	    plts.append( [p] )           # ... but save the line artist for the animation
-	ani = animation.ArtistAnimation(fig, plts, interval=50, repeat_delay=3000)   # run the animation
-
-	plt.show()
+    map_val = lambda x : abs(x)**2
+    map_row = lambda row : map_val(row)
+    prob_density = map_row(solution)
+    fig = plt.figure()
+    plts = []             # get ready to populate this list the Line artists to be plotted
+    plt.hold("off")
+    for i in range(ts.get_num_divisions()):
+        p, = plt.plot(prob_density[i,:], 'k')   # this is how you'd plot a single line...
+        plts.append( [p] )           # ... but save the line artist for the animation
+    ani = animation.ArtistAnimation(fig, plts, interval=50, repeat_delay=3000)   # run the animation
+    plt.show()

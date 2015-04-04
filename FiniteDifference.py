@@ -2,13 +2,13 @@ import numpy as np
 import WaveFunction
 
 def solve(xs, ts, potential, psi_init, algorithm):
-	if algorithm == 1:
-		matrix = build_matrix(xs, ts, potential)
-		return finite_difference1(xs, ts, psi_init, matrix)
-	else:
-		left_matrix = build_matrix_left(xs, ts, potential)
-		right_matrix = build_matrix_right(xs, ts, potential)
-		return finite_difference2(xs, ts, psi_init, left_matrix, right_matrix)
+    if algorithm == 1:
+        matrix = build_matrix(xs, ts, potential)
+        return finite_difference1(xs, ts, psi_init, matrix)
+    else:
+        left_matrix = build_matrix_left(xs, ts, potential)
+        right_matrix = build_matrix_right(xs, ts, potential)
+        return finite_difference2(xs, ts, psi_init, left_matrix, right_matrix)
 
 def build_matrix(xs, ts, potential):
     num_x = xs.get_num_divisions()
