@@ -55,7 +55,7 @@ def build_matrix_right(xs, ts, potential):
                 matrix[n,i] = 1j*delta_t/(2*delta_x**2)
     return matrix
 
-def finite_difference(xs, ts, psi_init, matrix):
+def finite_difference1(xs, ts, psi_init, matrix):
     num_x = xs.get_num_divisions()
     num_t = ts.get_num_divisions()
     delta_t = ts.get_delta()
@@ -85,5 +85,5 @@ def finite_difference2(xs, ts, psi_init, left_matrix, right_matrix):
         psi[n+1,:] = np.linalg.solve(left_matrix,np.dot(right_matrix,b))
         psi[n+1,0] = 0
         psi[n+1,-1] = 0
-#        psi[n+1,:] = WaveFunction.normalize(psi[n+1,:])
+        psi[n+1,:] = WaveFunction.normalize(psi[n+1,:])
     return psi
