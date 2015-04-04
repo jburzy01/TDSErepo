@@ -50,7 +50,7 @@ def build_matrix_right(xs, ts, potential):
     for n in xrange(1,num_x-1):
         for i in xrange(num_x):
             if i==n:
-                matrix[n,i] = 1 - 1j*delta_t/delta_x**2 + 1j*delta_t*potential[i]/2
+                matrix[n,i] = 1 - 1j*delta_t/delta_x**2 - 1j*delta_t*potential[i]/2
             elif abs(i-n) == 1:
                 matrix[n,i] = 1j*delta_t/(2*delta_x**2)
     return matrix
