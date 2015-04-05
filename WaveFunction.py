@@ -7,14 +7,14 @@ def init(xs, wave_fun):
     psi[-1] = 0.0
     return psi
 
-def wave_packet(start_x):
-    return lambda x : np.cos((np.pi*(x-start_x))/10)
+def cos_wave():
+    return lambda x : np.cos((np.pi*x)/10)
 
-def gaussian_wave(start_x):
-    return lambda x : np.exp(-(x-start_x)**2)
+def gaussian_wave():
+    return lambda x : np.exp(-x**2)
 
-def traveling_wave(k, start_x):
-    return lambda x : np.exp(1j*k*(x-start_x)-(x-start_x)**2)
+def traveling_wave(k):
+    return lambda x : np.exp(1j*k*x-x**2)
 
 def normalize(vector):
     normconst = 0.0
@@ -24,3 +24,6 @@ def normalize(vector):
     for i in xrange(length):
         vector[i] = vector[i]/math.sqrt(normconst)
     return vector
+
+def offset(f, offset_amount):
+    return lambda x : f(x-offset_amount)

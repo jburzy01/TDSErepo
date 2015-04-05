@@ -29,5 +29,5 @@ def animate_wave(xs, ts, solution):
     for i in range(ts.get_num_divisions()):
         p, = plt.plot(prob_density[i,:], 'k')   # this is how you'd plot a single line...
         plts.append( [p] )           # ... but save the line artist for the animation
-    ani = animation.ArtistAnimation(fig, plts, interval=50, repeat_delay=3000)   # run the animation
+    ani = animation.ArtistAnimation(fig, plts, interval=30, repeat_delay=3000)   # run the animation
     plt.show()

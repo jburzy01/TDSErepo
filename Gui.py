@@ -1,0 +1,50 @@
+from Tkinter import *
+import Potential as Pt
+from Range import Range
+import WaveFunction as Wf
+import Potential
+import FiniteDifference
+import Visualize
+
+def display():
+    master = Tk()
+    def label(text):
+        Label(master, text=text).pack(anchor=W)
+    # Returns a function which takes no arguments and returns the value of the variable
+    def int_var(low, high, default):
+        var = IntVar()
+        var.set(default)
+        Spinbox(master, from_=low, to=high, textvariable=var).pack(anchor=W)
+        return var.get
+    # Takes in a list of (name, value) pairs and displays a gui radio list to select one of these values
+    # Returns a function which takes no arguments and returns the selected value
+    def radio(possible_vals):
+        selection = IntVar()
+        for i, (name, val) in enumerate(possible_vals):
+            Radiobutton(master, text=name, variable=selection, value=i).pack(anchor=W)
+        return lambda : possible_vals[selection.get()][1]
+    label("Width:")
+    get_width = int_var(0, 10000000, 20)
+    label("Width divisions:")
+    get_space_divisions = int_var(10, 500, 200)
+    label("Simulation time:")
+    get_max_time = int_var(5, 150, 40)
+    label("Time divisions:")
+    get_time_divisions = int_var(10, 500, 1000)
+    label("Potentials:")
+    potential_funs = [("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", Pt.barrier(1.0,5.0)), ("Infinite well", Pt.infinite_well())]
+    get_selected_potential = radio(potential_funs)
+    label("Waves:")
+    label("Initial wave offset:")
+    get_wave_offset = int_var(-10000000, 10000000, 0)
+    wave_funs = [("Cosine wave", Wf.cos_wave()), ("Gaussian", Wf.gaussian_wave()), ("Travelling gaussian", Wf.traveling_wave(1.0))]
+    get_selected_wave = radio(wave_funs)
+    def run_simulation():
+        xs = Range(get_space_divisions(), get_width())
+        ts = Range(get_time_divisions(), get_max_time())
+        potential = Potential.init(xs, xs.center_function(get_selected_potential()))
+        psi_init = Wf.init(xs, Wf.offset(xs.center_function(get_selected_wave()), get_wave_offset()))
+        psi = FiniteDifference.solve(xs, ts, potential, psi_init, 2)
+        Visualize.animate_wave(xs,ts,psi)
+    Button(master, text="Simulate", command=run_simulation).pack()
+    master.mainloop()
