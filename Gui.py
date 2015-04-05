@@ -32,7 +32,12 @@ def display():
     label("Time divisions:")
     get_time_divisions = int_var(10, 500, 1000)
     label("Potentials:")
-    potential_funs = [("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", Pt.barrier(1.0,5.0)), ("Infinite well", Pt.infinite_well())]
+    label("Barrier width:")
+    get_barrier_width = int_var(1,100000,1)
+    label("Barrier height:")
+    get_barrier_height = int_var(1,100000000,4)
+    barrier_fun = lambda x : Pt.barrier(float(get_barrier_width()),float(get_barrier_height()))(x)
+    potential_funs = [("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", barrier_fun), ("Infinite well", Pt.infinite_well())]
     get_selected_potential = radio(potential_funs)
     label("Waves:")
     label("Initial wave offset:")
