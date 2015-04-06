@@ -23,6 +23,7 @@ def display():
         for i, (name, val) in enumerate(possible_vals):
             Radiobutton(master, text=name, variable=selection, value=i).pack(anchor=W)
         return lambda : possible_vals[selection.get()][1]
+
     label("Width:")
     get_width = int_var(0, 10000000, 20)
     label("Width divisions:")
@@ -36,8 +37,16 @@ def display():
     get_barrier_width = int_var(1,100000,1)
     label("Barrier height:")
     get_barrier_height = int_var(1,100000000,4)
+    label("Crystal width:")
+    get_crystal_width = int_var(1,100000, 1)
+    label("Crystal depth:")
+    get_crystal_depth = int_var(1,100000, 5)
+
     barrier_fun = lambda x : Pt.barrier(float(get_barrier_width()),float(get_barrier_height()))(x)
-    potential_funs = [("Crystal", Pt.crystal(2.0)), ("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", barrier_fun), ("Infinite well", Pt.infinite_well())]
+    crystal_fun = lambda x : Pt.crystal(float(get_crystal_depth()),float(get_crystal_width()))(x)
+    potential_funs = [("Crystal", crystal_fun), ("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", barrier_fun), ("Infinite well", Pt.infinite_well())]
+    
+
     get_selected_potential = radio(potential_funs)
     label("Waves:")
     label("Initial wave offset:")
