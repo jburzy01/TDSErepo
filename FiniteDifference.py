@@ -15,8 +15,19 @@ def build_matrix(xs, ts, potential):
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
     matrix = np.zeros((num_x, num_x), dtype=complex)
-    matrix[0,0] = 1.0
-    matrix[-1,-1] = 1.0
+
+    # zero boundary conditions
+#    matrix[0,0] = 1.0
+#    matrix[-1,-1] = 1.0
+
+    # periodic boundary conditions
+    matrix[0,0] = potential[0] + 2/delta_x**2 - 1j/delta_t
+    matrix[0,1] = -1/delta_x**2
+    matrix[0,-1] = -1/delta_x**2
+
+    matrix[-1,-1] = potential[0] + 2/delta_x**2 - 1j/delta_t
+    matrix[-1,-2] = -1/delta_x**2
+    matrix[-1,0] = -1/delta_x**2
     for n in xrange(1,num_x-1):
         for i in xrange(num_x):
             if i==n:
@@ -30,8 +41,20 @@ def build_matrix_left(xs, ts, potential):
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
     matrix = np.zeros((num_x, num_x), dtype=complex)
-    matrix[0,0] = 1.0
-    matrix[-1,-1] = 1.0
+
+    # zero boundary conditions
+#    matrix[0,0] = 1.0
+#    matrix[-1,-1] = 1.0
+
+    # periodic boundary conditions
+    matrix[0,0] = 1 + 1j*delta_t/delta_x**2 + 1j*delta_t*potential[0]/2
+    matrix[0,1] = -1j*delta_t/(2*delta_x**2)
+    matrix[0,-1] = -1j*delta_t/(2*delta_x**2)
+
+    matrix[-1,-1] = 1 + 1j*delta_t/delta_x**2 + 1j*delta_t*potential[0]/2
+    matrix[-1,-2] = -1j*delta_t/(2*delta_x**2)
+    matrix[-1,0] = -1j*delta_t/(2*delta_x**2)
+
     for n in xrange(1,num_x-1):
         for i in xrange(num_x):
             if i==n:
@@ -45,8 +68,21 @@ def build_matrix_right(xs, ts, potential):
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
     matrix = np.zeros((num_x, num_x), dtype=complex)
-    matrix[0,0] = 1.0
-    matrix[-1,-1] = 1.0
+
+    # zero boundary conditions
+#    matrix[0,0] = 1.0
+#    matrix[-1,-1] = 1.0
+
+    # periodic boundary conditions
+
+    matrix[0,0] = 1 - 1j*delta_t/delta_x**2 - 1j*delta_t*potential[0]/2
+    matrix[0,1] = 1j*delta_t/(2*delta_x**2)
+    matrix[0,-1] = 1j*delta_t/(2*delta_x**2)
+
+    matrix[-1,-1] = 1 - 1j*delta_t/delta_x**2 - 1j*delta_t*potential[0]/2
+    matrix[-1,-2] = 1j*delta_t/(2*delta_x**2)
+    matrix[-1,0] = 1j*delta_t/(2*delta_x**2)
+
     for n in xrange(1,num_x-1):
         for i in xrange(num_x):
             if i==n:
@@ -61,6 +97,7 @@ def finite_difference1(xs, ts, psi_init, matrix):
     delta_t = ts.get_delta()
     psi = np.zeros((num_t,num_x), dtype=complex)
     psi[0,:] = psi_init
+
     # boundary conditions
     psi[:,0] = 0
     psi[:,-1] = 0
@@ -78,12 +115,13 @@ def finite_difference2(xs, ts, psi_init, left_matrix, right_matrix):
     psi = np.zeros((num_t,num_x), dtype=complex)
     psi[0,:] = psi_init
     # boundary conditions
-    psi[:,0] = 0
-    psi[:,-1] = 0
+#    psi[:,0] = 0
+#    psi[:,-1] = 0
     for n in xrange(num_t-1):
         b = psi[n,:]
         psi[n+1,:] = np.linalg.solve(left_matrix,np.dot(right_matrix,b))
-        psi[n+1,0] = 0
-        psi[n+1,-1] = 0
+#        psi[n+1,0] = 0
+#        psi[n+1,-1] = 0
+#        psi[n+1,-1] = psi[n+1,0]
         psi[n+1,:] = WaveFunction.normalize(psi[n+1,:])
     return psi
