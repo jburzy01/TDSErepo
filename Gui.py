@@ -5,6 +5,7 @@ import WaveFunction as Wf
 import Potential
 import FiniteDifference
 import Visualize
+import math
 
 def display():
     master = Tk()
@@ -29,7 +30,7 @@ def display():
     label("Width divisions:")
     get_space_divisions = int_var(10, 500, 200)
     label("Simulation time:")
-    get_max_time = int_var(5, 150, 40)
+    get_max_time = int_var(5, 150, 10)
     label("Time divisions:")
     get_time_divisions = int_var(10, 500, 1000)
     label("Potentials:")
@@ -42,16 +43,20 @@ def display():
     label("Crystal depth:")
     get_crystal_depth = int_var(1,100000, 5)
 
+    label("Energy:")
+    get_energy = int_var(-1000000,1000000, 1)
+
     barrier_fun = lambda x : Pt.barrier(float(get_barrier_width()),float(get_barrier_height()))(x)
     crystal_fun = lambda x : Pt.crystal(float(get_crystal_depth()),float(get_crystal_width()))(x)
     potential_funs = [("Crystal", crystal_fun), ("Harmonic oscillator", Pt.harmonic_oscillator()), ("Barrier", barrier_fun), ("Infinite well", Pt.infinite_well())]
-    
+    traveling_wave_fun = lambda x: Wf.traveling_wave(float(get_energy()))(x) 
 
     get_selected_potential = radio(potential_funs)
     label("Waves:")
     label("Initial wave offset:")
     get_wave_offset = int_var(-10000000, 10000000, 0)
-    wave_funs = [("Cosine wave", Wf.cos_wave()), ("Gaussian", Wf.gaussian_wave()), ("Travelling gaussian", Wf.traveling_wave(1.0))]
+
+    wave_funs = [("Cosine wave", Wf.cos_wave()), ("Gaussian", Wf.gaussian_wave()), ("Travelling gaussian", traveling_wave_fun)]
     get_selected_wave = radio(wave_funs)
     def run_simulation():
         xs = Range(get_space_divisions(), get_width())
