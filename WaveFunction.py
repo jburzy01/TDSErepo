@@ -2,9 +2,7 @@ import numpy as np
 import math
 
 def init(xs, wave_fun):
-    psi = normalize(wave_fun(xs.get_values()))
-    psi[0] = 0.0
-    psi[-1] = 0.0
+    psi = wave_fun(xs.get_values())
     return psi
 
 def cos_wave():
@@ -13,8 +11,11 @@ def cos_wave():
 def gaussian_wave():
     return lambda x : np.exp(-x**2)
 
-def traveling_wave(k):
-    return lambda x : np.exp(1j*k*x-x**2)
+def traveling_wave(energy):
+    sigma = 1.0
+    k = math.sqrt(2*energy)
+    return lambda x : np.exp((.25)*x*(4*1j*k-x*sigma**2))*math.sqrt(np.pi)*(sigma/(math.sqrt(math.sqrt(2)*(np.pi**(3/2))*sigma)))
+
 
 def normalize(vector):
     normconst = 0.0
