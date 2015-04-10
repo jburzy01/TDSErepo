@@ -17,7 +17,11 @@ def display():
         var.set(default)
         Spinbox(master, from_=low, to=high, textvariable=var).pack(anchor=W)
         return var.get
-
+    def double_var(low, high, default):
+        var = DoubleVar()
+        var.set(default)
+        Spinbox(master, from_=low, to=high, increment=0.01, textvariable=var).pack(anchor=W)
+        return var.get
     # Takes in a list of (name, value) pairs and displays a gui radio list to select one of these values
     # Returns a function which takes no arguments and returns the selected value
     def radio(possible_vals):
@@ -64,7 +68,7 @@ def display():
     label("Barrier height:")
     get_barrier_height = int_var(1,100000000,4)
     label("Crystal width:")
-    get_crystal_width = int_var(1,100000, 1)
+    get_crystal_width = double_var(0,100000, 0.4)
     label("Crystal depth:")
     get_crystal_depth = int_var(1,100000, 5)
 
