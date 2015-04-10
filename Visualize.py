@@ -9,6 +9,8 @@ def heatmap(solution):
     fig = plt.figure(figsize=(6, 3.2))
     ax = fig.add_subplot(111)
     ax.set_title('colorMap')
+    ax.set_xlabel('x')
+    ax.set_ylabel('time')
     plt.imshow(prob_density)
     ax.set_aspect('equal')
     cax = fig.add_axes([0.12, 0.1, 0.78, 0.8])
