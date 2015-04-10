@@ -1,6 +1,5 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import numpy as np
 
 def heatmap(solution):
     map_val = lambda x : abs(x)**2
@@ -20,14 +19,13 @@ def heatmap(solution):
     plt.show()
 
 def animate_wave(xs, ts, solution):
-    map_val = lambda x : abs(x)**2
-    map_row = lambda row : map_val(row)
-    prob_density = map_row(solution)
     fig = plt.figure()
     plts = []             # get ready to populate this list the Line artists to be plotted
     plt.hold("off")
     for i in range(ts.get_num_divisions()):
-        p, = plt.plot(prob_density[i,:], 'k')   # this is how you'd plot a single line...
-        plts.append( [p] )           # ... but save the line artist for the animation
+        rplot, = plt.plot(solution[i,:].real, 'r')   # this is how you'd plot a single line...
+        iplot, = plt.plot(solution[i,:].imag, 'b')   # this is how you'd plot a single line...
+        pplot, = plt.plot(abs(solution[i,:])**2, 'k')   # this is how you'd plot a single line...
+        plts.append([rplot, iplot, pplot])           # ... but save the line artist for the animation
     ani = animation.ArtistAnimation(fig, plts, interval=30, repeat_delay=3000)   # run the animation
     plt.show()
