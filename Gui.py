@@ -92,7 +92,7 @@ def display():
         psi = FiniteDifference.solve(xs, ts, potential, psi_init, get_algorithm())
         viz = get_selected_viz()
         if viz == opt_animation:
-            Visualize.animate_wave(xs,ts,psi)
+            Visualize.animate_wave(xs,ts,psi,potential)
         if viz == opt_heatmap:
             Visualize.heatmap(psi)
     Button(master, text="Simulate", command=run_simulation).pack()

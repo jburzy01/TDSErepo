@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
+import numpy as np
 
 def heatmap(solution):
     map_val = lambda x : abs(x)**2
@@ -18,14 +19,28 @@ def heatmap(solution):
     plt.colorbar(orientation='vertical')
     plt.show()
 
-def animate_wave(xs, ts, solution):
+def animate_wave(xs, ts, solution, potential):
     fig = plt.figure()
     plts = []             # get ready to populate this list the Line artists to be plotted
     plt.hold("off")
+    # Get the maximum and minimum values over all of time and space
+    maximum = float("-inf")
+    minimum = float("inf")
+    for i in range(ts.get_num_divisions()):
+        for arr in [solution[i,:].real, solution[i,:].imag, abs(solution[i,:])]:
+            maximum = max(maximum, max(arr))
+            minimum = min(minimum, min(arr))
+    minp = min(potential)
+    maxp = max(potential)
+    if minp == maxp:
+        minp -= 1.0
+        maxp += 1.0
+    normalized_potential = np.interp(potential, [minp, maxp], [minimum, maximum])
     for i in range(ts.get_num_divisions()):
         rplot, = plt.plot(solution[i,:].real, 'r')   # this is how you'd plot a single line...
-        iplot, = plt.plot(solution[i,:].imag, 'b')   # this is how you'd plot a single line...
-        pplot, = plt.plot(abs(solution[i,:]), 'k')   # this is how you'd plot a single line...
-        plts.append([rplot, iplot, pplot])           # ... but save the line artist for the animation
+        iplot, = plt.plot(solution[i,:].imag, 'b')
+        pplot, = plt.plot(abs(solution[i,:]), 'k')
+        pot, = plt.plot(normalized_potential, 'g')
+        plts.append([rplot, iplot, pplot, pot])           # ... but save the line artist for the animation
     ani = animation.ArtistAnimation(fig, plts, interval=30, repeat_delay=3000)   # run the animation
     plt.show()
