@@ -26,10 +26,12 @@ def display():
             Radiobutton(master, text=name, variable=selection, value=i).pack()
         return lambda : possible_vals[selection.get()][1]
     # Takes in a dictionary of (name, function) pairs and displays a GUI drop down menu to select init function
-    def drop_down(dict):
+    def drop_down(dict, default=None):
         selection = StringVar()
         keys = dict.keys()
-        selection.set(keys[0])
+        if default is None:
+            default = keys[0]
+        selection.set(default)
         OptionMenu(master, selection, *keys).pack(anchor=W)
         return lambda : dict[selection.get()]
 
@@ -38,7 +40,8 @@ def display():
     traveling_wave_fun = lambda x: Wf.traveling_wave(float(get_energy()))(x) 
 
     label("Algorithm:")
-    get_algorithm = int_var(1,2,2)
+    algorithm_options = {'Algorithm 1': 1, 'Algorithm 2': 2}
+    get_algorithm = drop_down(algorithm_options, default='Algorithm 2')
 
     label("Width:")
     get_width = int_var(0, 10000000, 20)
@@ -53,8 +56,8 @@ def display():
     get_time_divisions = int_var(10, 2000, 1000)
 
     label("Potentials:")
-    optionDict = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well': Pt.infinite_well()}
-    get_selected_potential = drop_down(optionDict)
+    potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well': Pt.infinite_well()}
+    get_selected_potential = drop_down(potential_options)
 
     label("Barrier width:")
     get_barrier_width = int_var(1,100000,1)
@@ -69,12 +72,17 @@ def display():
     get_energy = int_var(-1000000,1000000, 1)
 
     label("Waves:")
-    waveDict = {'Cosine wave': Wf.cos_wave(), 'Gaussian': Wf.gaussian_wave(), 'Travelling gaussian': traveling_wave_fun}
-    get_selected_wave = drop_down(waveDict)
+    wave_options = {'Cosine wave': Wf.cos_wave(), 'Gaussian': Wf.gaussian_wave(), 'Travelling gaussian': traveling_wave_fun}
+    get_selected_wave = drop_down(wave_options)
 
     label("Initial wave offset:")
     get_wave_offset = int_var(-10000000, 10000000, 0)
 
+    label("Visualization:")
+    opt_animation = 0
+    opt_heatmap = 1
+    viz_options = {'Animation': opt_animation, 'Heatmap': opt_heatmap}
+    get_selected_viz = drop_down(viz_options, default='Animation')
 
     def run_simulation():
         xs = Range(get_space_divisions(), get_width())
@@ -82,6 +90,10 @@ def display():
         potential = Potential.init(xs, xs.center_function(get_selected_potential()))
         psi_init = Wf.init(xs, Wf.offset(xs.center_function(get_selected_wave()), get_wave_offset()))
         psi = FiniteDifference.solve(xs, ts, potential, psi_init, get_algorithm())
-        Visualize.animate_wave(xs,ts,psi)
+        viz = get_selected_viz()
+        if viz == opt_animation:
+            Visualize.animate_wave(xs,ts,psi)
+        if viz == opt_heatmap:
+            Visualize.heatmap(psi)
     Button(master, text="Simulate", command=run_simulation).pack()
     master.mainloop()
