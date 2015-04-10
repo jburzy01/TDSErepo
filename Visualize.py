@@ -32,11 +32,11 @@ def animate_wave(xs, ts, solution, potential):
         for arr in [solution[i,:].real, solution[i,:].imag, abs(solution[i,:])]:
             maximum = max(maximum, max(arr))
             minimum = min(minimum, min(arr))
-    minp = min(potential)
-    maxp = max(potential)
-    if minp == maxp:
-        minp -= 1.0
-        maxp += 1.0
+    # atan rescaling maps all real numbers to a finite range and also
+    # preserves whether a value is positive or negative
+    potential = np.arctan(potential/5)
+    minp = -np.pi/2
+    maxp = np.pi/2
     normalized_potential = np.interp(potential, [minp, maxp], [minimum, maximum])
     for i in range(ts.get_num_divisions()):
         rplot, = plt.plot(solution[i,:].real, 'r')   # this is how you'd plot a single line...
