@@ -13,7 +13,8 @@ def cos_wave():
 def gaussian_wave():
     return lambda x : np.exp(-x**2)
 
-def traveling_wave(k):
+def traveling_wave(energy):
+    k = math.sqrt(2*energy)
     return lambda x : np.exp(1j*k*x-x**2)
 
 def normalize(vector):
