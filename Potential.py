@@ -15,9 +15,9 @@ def infinite_well():
 
 # See http://mathworld.wolfram.com/SquareWave.html
 def crystal(depth, width):
-	def potential(x):
-		if x < 0:
-			return 0.0
-		else:
-			return (math.floor(x/width) % 2) * (-depth)
-	return potential
+    def potential(x):
+        if x < 0:
+            return 0.0
+        else:
+            return (math.floor(x/width) % 2) * (-depth)
+    return potential

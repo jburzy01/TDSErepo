@@ -1,16 +1,16 @@
 import numpy as np
 import WaveFunction
 
-def solve(xs, ts, potential, psi_init, algorithm):
-    if algorithm == 1:
-        matrix = build_matrix(xs, ts, potential)
-        return finite_difference1(xs, ts, psi_init, matrix)
-    else:
-        left_matrix = build_matrix_left(xs, ts, potential)
-        right_matrix = build_matrix_right(xs, ts, potential)
-        return finite_difference2(xs, ts, psi_init, left_matrix, right_matrix)
+def solve1(xs, ts, potential, psi_init, periodic_boundary_cond):
+    matrix = build_matrix(xs, ts, potential, periodic_boundary_cond)
+    return finite_difference1(xs, ts, psi_init, matrix, periodic_boundary_cond)
 
-def build_matrix(xs, ts, potential):
+def solve2(xs, ts, potential, psi_init, periodic_boundary_cond):
+    left_matrix = build_matrix_left(xs, ts, potential, periodic_boundary_cond)
+    right_matrix = build_matrix_right(xs, ts, potential, periodic_boundary_cond)
+    return finite_difference2(xs, ts, psi_init, left_matrix, right_matrix, periodic_boundary_cond)
+
+def build_matrix(xs, ts, potential, periodic_boundary_cond):
     num_x = xs.get_num_divisions()
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
@@ -36,7 +36,7 @@ def build_matrix(xs, ts, potential):
                 matrix[n,i] = -1/delta_x**2
     return matrix
 
-def build_matrix_left(xs, ts, potential):
+def build_matrix_left(xs, ts, potential, periodic_boundary_cond):
     num_x = xs.get_num_divisions()
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
@@ -63,7 +63,7 @@ def build_matrix_left(xs, ts, potential):
                 matrix[n,i] = -1j*delta_t/(2*delta_x**2)
     return matrix
 
-def build_matrix_right(xs, ts, potential):
+def build_matrix_right(xs, ts, potential, periodic_boundary_cond):
     num_x = xs.get_num_divisions()
     delta_x = xs.get_delta()
     delta_t = ts.get_delta()
@@ -91,7 +91,7 @@ def build_matrix_right(xs, ts, potential):
                 matrix[n,i] = 1j*delta_t/(2*delta_x**2)
     return matrix
 
-def finite_difference1(xs, ts, psi_init, matrix):
+def finite_difference1(xs, ts, psi_init, matrix, periodic_boundary_cond):
     num_x = xs.get_num_divisions()
     num_t = ts.get_num_divisions()
     delta_t = ts.get_delta()
@@ -108,7 +108,7 @@ def finite_difference1(xs, ts, psi_init, matrix):
         psi[n+1,:] = WaveFunction.normalize(psi[n+1,:])
     return psi
 
-def finite_difference2(xs, ts, psi_init, left_matrix, right_matrix):
+def finite_difference2(xs, ts, psi_init, left_matrix, right_matrix, periodic_boundary_cond):
     num_x = xs.get_num_divisions()
     num_t = ts.get_num_divisions()
     delta_t = ts.get_delta()
