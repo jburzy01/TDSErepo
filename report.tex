@@ -2,6 +2,9 @@
 
 \usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
 \usepackage{amsmath, amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{ {/home/jackson/TDSErepo/figs/} }
 
 \begin{document}
 
@@ -21,13 +24,39 @@ In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}di
 
 \subsection{Comparing Methods}
 
-\subsection{Boundary Conditions}
+In this project, we have implemented two different finite difference schemes. The first uses the "obvious" finite difference scheme below
+%\begin{equation}
+%\left[ \frac{\Psi_{j+1}^{n+1} -2 \Psi_j^{n+1} + \Psi_{j-1}^{n+1}}{(\Delta x)^2} \right]
+%\end{equation}
 
-By applying zero boundary conditions, we effectively place the particle in the infinite square well.
+The second uses a slightly modified approach. The second method is superior because it is stable and unitary. The algorithm for this method is
+
+%\begin{equation}
+%
+%\end{equation}
+
+\subsection{Periodic Boundary Conditions}
+
+By applying periodic boundary conditions, we see the particle exit the frame on the right and reappear on the left, as expected
+
+\subsection{Zero Boundary Conditions}
+
+By applying zero boundary conditions, we effectively place the particle in the infinite square well. See the analysis in the following section. 
 
 \section{Common Potentials}
 
 \subsection{Infinite Square Well}
+
+The eigenvalues for a particle in the infinite square well are
+
+\begin{equation}
+E_n = \frac{n^2 \pi^2 \hbar^2}{2 ma^2} = \frac{n^2 \pi ^2}{2 a^2}
+\end{equation}
+%
+with corresponding eigenfunctions
+\begin{equation}
+\psi_n(x) = \sqrt{\frac{2}{a}} \cos \left( \frac{n\pi}{a} x \right)
+\end{equation}
 
 \subsection{Harmonic Oscillator}
 
@@ -40,13 +69,29 @@ E_n \left( n + \frac{1}{2} \right) \hbar \omega = \left( n + \frac{1}{2} \right)
 with corresponding eigenfunctions
 
 \begin{equation}
-\psi_n = \left( \frac{m \omega}{\pi \hbar} \right)^{1/4} \frac{1}{\sqrt{2^n n!}} H_n(x)e^{-x^2/2}
+\psi_n(x) = \left( \frac{m \omega}{\pi \hbar} \right)^{1/4} \frac{1}{\sqrt{2^n n!}} H_n(x)e^{-x^2/2}
 \end{equation}
 %
 where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates are shown below for the two algorithms.
 Note that the oscillations are periodic, as expected.
 
-% insert diagrams here 
+% insert diagrams here
+\begin{figure}
+\centering
+\begin{subfigure}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=2in]{img}
+\caption{Algorithm 1}
+\end{subfigure}
+%
+\begin{subfigure}[t]{0.3\textwidth}
+\centering
+\includegraphics[width=2in]{img}
+\caption{Algorithm 2}
+\end{subfigure}
+
+\caption{Ground state of the harmonic oscillator}
+\end{figure}
 
 \section{Barrier Potential}
 
