@@ -19,6 +19,8 @@ def heatmap(solution):
     cax.patch.set_alpha(0)
     cax.set_frame_on(False)
     plt.colorbar(orientation='vertical')
+	
+    plt.savefig('img.pdf')
     plt.show()
 
 def animate_wave(xs, ts, solution, potential):
