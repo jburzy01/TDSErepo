@@ -13,7 +13,7 @@
 
 \begin{abstract}
 
-In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}dinger Equation obtained through the finite difference scheme. Two different methods have been implemented and the results from each algorithm are compared. 
+In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}dinger Equation obtained through the finite difference scheme. Two different methods have been implemented and the results from each algorithm are compared. For simplicity, in this project we let $\hbar = m = \omega = 1$
 
 \end{abstract}
 
@@ -23,11 +23,30 @@ In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}di
 
 \subsection{Boundary Conditions}
 
+By applying zero boundary conditions, we effectively place the particle in the infinite square well.
+
 \section{Common Potentials}
 
 \subsection{Infinite Square Well}
 
 \subsection{Harmonic Oscillator}
+
+The eigenvalues for a particle in this potential are
+
+\begin{equation}
+E_n \left( n + \frac{1}{2} \right) \hbar \omega = \left( n + \frac{1}{2} \right)
+\end{equation}
+%
+with corresponding eigenfunctions
+
+\begin{equation}
+\psi_n = \left( \frac{m \omega}{\pi \hbar} \right)^{1/4} \frac{1}{\sqrt{2^n n!}} H_n(x)e^{-x^2/2}
+\end{equation}
+%
+where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates are shown below for the two algorithms.
+Note that the oscillations are periodic, as expected.
+
+% insert diagrams here 
 
 \section{Barrier Potential}
 
