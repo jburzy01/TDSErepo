@@ -26,19 +26,21 @@ In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}di
 
 In this project, we have implemented two different finite difference schemes. The first uses the "obvious" finite difference scheme below
 \begin{equation}
-\left[ \frac{\Psi_{j+1}^{n+1} -2 \Psi_j^{n+1} + \Psi_{j-1}^{n+1}}{(\Delta x)^2} \right] + V_j \Psi_j^{n+1} = i \left[ \frac{\Psi_j^{n+1} + \Psi_j^n}{\Delta t} \right]
+-\left[ \frac{\Psi_{j+1}^{n+1} -2 \Psi_j^{n+1} + \Psi_{j-1}^{n+1}}{(\Delta x)^2} \right] + V_j \Psi_j^{n+1} = i \left[ \frac{\Psi_j^{n+1} + \Psi_j^n}{\Delta t} \right]
 \end{equation}
-
-The second uses a slightly modified approach. This method is superior because it is stable and unitary. The algorithm for this method is
-
-%\begin{equation}
 %
-%\end{equation}
+This algorithm is unconditionally stable, however it is non-unitary, so we must normalize the wavefunction at every time step. The second uses a slightly modified approach. This method is superior because it is both stable and unitary. This method uses the equation
+
+\begin{equation}
+(1+\frac{1}{2}iH\Delta t)\psi_j^{n+1} = (1-\frac{1}{2}iH\Delta t)\psi_j^n
+\end{equation}
+%
+So rather than having the equation $A\psi_j^{n+1} = \psi_j^n$ as we did in the first method, we now have $A\psi_j^{n+1} = B\psi_j^n$ where $A$ and $B$ are both tridiagonal matrices. In the following sections we will show how the second method is superior to the first.
 
 \subsection{Periodic Boundary Conditions}
 
 By applying periodic boundary conditions, we see the particle exit the frame on the right and reappear on the left, as expected. The results from the two 
-different algorithms are shown in Figure 1
+different algorithms are shown in Figure 1. Notice how the first algorithm gives undesireable results, such as dissipation and a non-constant velocity of the wavepacket. The second algorithm, however, gives the expected results.
 
 % add free particle heat maps
 
@@ -87,8 +89,9 @@ with corresponding eigenfunctions
 \begin{equation}
 \psi_n(x) = \sqrt{\frac{2}{a}} \cos \left( \frac{n\pi}{a} x \right)
 \end{equation}
+%
+The first and second eigenstates for both algorihms are shown in Figures 2 and 3. For this potential, the two algorithms gave the same output. This is due to the fact that these are {\it stationary states}, so the method used to evolve the wavefunction through time did not matter. For this potential we observe states with the correct energy eigenvalues.
 
-The first and second eigenstates for both algorihms are shown in Figures 2 and 3                             
 
 \begin{figure}
 \centering
@@ -123,13 +126,15 @@ The first and second eigenstates for both algorihms are shown in Figures 2 and 3
 
 \caption{First excited state of the infinite square well}
 \end{figure}
-
-For this potential, the two algorithms gave the same output. This is due to the fact that these are {\it stationary states}, so the method used 
-to evolve the wavefunction through time did not matter
-
+%
 \subsection{Harmonic Oscillator}
 
-The eigenvalues for a particle in this potential are
+Recall that the potential energy of the harmonic oscillator is of the form
+\begin{equation}
+V(x) = \frac{1}{2}m\omega^2x^2
+\end{equation}
+%
+For simplicity, we let $m = \omega = 1$, so $V(x) = 1/2x^2$. The eigenvalues for a particle in this potential are
 
 \begin{equation}
 E_n \left( n + \frac{1}{2} \right) \hbar \omega = \left( n + \frac{1}{2} \right)
@@ -141,8 +146,8 @@ with corresponding eigenfunctions
 \psi_n(x) = \left( \frac{m \omega}{\pi \hbar} \right)^{1/4} \frac{1}{\sqrt{2^n n!}} H_n(x)e^{-x^2/2}
 \end{equation}
 %
-where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates form both algorithms are shown in Figure 4
-Note that the oscillations are periodic, as expected. Also notice how the maximum amplitude of the oscillations decreases throughout time in the first algortihm, and stays constant in the second.
+where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates form both algorithms are shown in Figure 4 and 5
+Note that the oscillations are periodic, as expected. Also notice how the maximum amplitude of the oscillations decreases throughout time in the first algortihm, and stays constant in the second. Again we observe states with the correct energy eigenvalues.
 
 % insert diagrams here
 \begin{figure}
@@ -162,10 +167,27 @@ Note that the oscillations are periodic, as expected. Also notice how the maximu
 \caption{Ground state of the harmonic oscillator}
 \end{figure}
 
+\begin{figure}
+\centering
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=2.9in]{HO_alg1_eig2}
+\caption{Algorithm 1}
+\end{subfigure}
+%
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=2.9in]{HO_alg2_eig2}
+\caption{Algorithm 2}
+\end{subfigure}
+
+\caption{First excited state of the harmonic oscillator}
+\end{figure}
+
 \section{Barrier Potential}
 
 We now look at a potential barrier. In order to examine how a particle will interact with a barrier, we must multiply our initial gaussian wavepacket 
-by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 5 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling}. 
+by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 6 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling}. 
 
 
 \begin{figure}
@@ -194,16 +216,49 @@ Analytically, we expect the reflection and transmission coefficients to be of th
 T = \frac{4k_0 k_1 e^{-ia(k_0-k_1)}}{(k_0 + k_1)^2 - e^{2iak_1}(k_0-k1)^2} \hspace{0.2in} R = \frac{(k_0^2-k_1^2)\sin(ak_1)}{2ik_0k_1\cos(ak_1)+(k_0^2+k_1^2)\sin(ak_1)}
 \end{equation}
 %
-where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$. Letting $E = 100$ and $V = 200$, we calculate that $R = .99588$ and $T = .00412$. However, from the formula above we expect $T$ to be on the order of $10^{-12}$
+where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$. Letting $E = 100$ and $V = 200$, we calculate that $R = .99715$ and $T = .00285$. However, from the formula above we expect $T$ to be on the order of $10^{-12}$
 
 \subsection{Incident Energy Equal to the Barrier Height}
 
-We now look at the situation in which the incident energy $E$ equals the height of the potential barrier $V$. In this situation, we have that $k_1 = 0$
+\begin{figure}
+\centering
+\includegraphics[width=2.9in]{barrier_equal}
+\caption{ E = V }
+\end{figure}
 
+We now look at the situation in which the incident energy $E$ equals the height of the potential barrier $V$. In this situation, we have that $k_1 = 0$, so the transmission and reflection coefficients take a different form. We now have that 
+
+\begin{equation}
+T = \frac{1}{1+ma^2V/2\hbar^2}
+\end{equation}
+%
+For $ E = V = 100$ and $a=1.0$, our program gives us $T = .8450$. However, from the analytical expression we expect that $T = .01961$. Possible reason's for this discrepency are the equations used for the free particle wavepacket. The analytical calculation uses a piecewise superposition of waves
+
+\begin{align*}
+\psi_L = A_r e^{ik_0x} + A_l e^{-ik_0x} \hspace{0.2in} x < 0 \\
+\psi_C = B_r e^{ik_1x} + B_l e^{-ik_1x} \hspace{0.2in} 0 < x < a \\
+\psi_R = C_r e^{ik_0x} + C_l e^{-ik_0x} \hspace{0.2in} x > a
+\end{align*}
+
+However, we were unable to implement such a wavefunction that gave us meaningful results. Our program uses a simple gaussian multiplied by the time evolution operator
+
+\begin{equation}
+\psi = A e^{ikx - x^2/2}
+\end{equation}
+
+In further analysis, we hope to implement a traveling wave that is consistent with the one used in the analytical calculation to allow a more thorough analysis of the accuracy of our method.
 
 \section{Kronig-Penney Crystal}
 
-The next potential that we looked at was a periodic array of potential wells, i.e. a Kronig-Penny crystal. 
+The next potential that we looked at was a periodic array of potential wells, i.e. a Kronig-Penny crystal. The heatmap of this scenario is shown in Figure 8. We encourage the reader to experiment with the GUI to look at a wider range of crystal depths and widths. 
+
+
+\begin{figure}
+\centering
+\includegraphics[width=2.9in]{KP}
+\caption{ Particle with E = 50 hitting a Kronig-Penny crystal of depth V = -25 and width = 0.4 }
+\end{figure}
+
 
 \section{Non-Hermition Hamiltonian}
 
