@@ -70,7 +70,7 @@ def display():
     layout.new_column()
 
     label("Potential:")
-    potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well': Pt.infinite_well()}
+    potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well/Free Particle': Pt.infinite_well(), "Non-Hermitian 1": Pt.non_hermitian()}
     get_selected_potential = drop_down(potential_options)
 
     label("Barrier width:")

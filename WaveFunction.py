@@ -3,15 +3,15 @@ import math
 
 def init(xs, wave_fun):
     psi = normalize(wave_fun(xs.get_values()))
-    psi[0] = 0.0
-    psi[-1] = 0.0
+#    psi[0] = 0.0
+#    psi[-1] = 0.0
     return psi
 
 def cos_wave():
     return lambda x : np.cos((np.pi*x)/10)
 
 def gaussian_wave():
-    return lambda x : np.exp(-x**2)
+    return lambda x : np.exp(-x**2/2)
 
 def traveling_wave(energy):
     k = math.sqrt(2*energy)

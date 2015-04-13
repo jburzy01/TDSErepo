@@ -13,7 +13,6 @@ def barrier(width, height):
 def infinite_well():
     return lambda x : 0.0
 
-# See http://mathworld.wolfram.com/SquareWave.html
 def crystal(depth, width):
     def potential(x):
         if x < 0:
@@ -21,3 +20,8 @@ def crystal(depth, width):
         else:
             return (math.floor(x/width) % 2) * (-depth)
     return potential
+
+
+def non_hermitian():
+    return lambda x : x+1j*x
+

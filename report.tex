@@ -165,7 +165,7 @@ Note that the oscillations are periodic, as expected. Also notice how the maximu
 \section{Barrier Potential}
 
 We now look at a potential barrier. In order to examine how a particle will interact with a barrier, we must multiply our initial gaussian wavepacket 
-by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 5 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling} and 
+by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 5 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling}. 
 
 
 \begin{figure}
@@ -191,13 +191,15 @@ by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In thi
 Analytically, we expect the reflection and transmission coefficients to be of the form
 
 \begin{equation}
-T = \frac{4k_0 k_1 e^{-ia(k_0-k_1)}}{(k_0 - k_1)^2 - e^{2iak_1}(k_0-k1)^2} \hspace{0.2in} R = \frac{(k_0^2-k_1)^2\sin(ak_1)}{2ik_0k_1\cos(ak_1)+(k_0^2+k_1^2)\sin(ak_1)}
+T = \frac{4k_0 k_1 e^{-ia(k_0-k_1)}}{(k_0 + k_1)^2 - e^{2iak_1}(k_0-k1)^2} \hspace{0.2in} R = \frac{(k_0^2-k_1^2)\sin(ak_1)}{2ik_0k_1\cos(ak_1)+(k_0^2+k_1^2)\sin(ak_1)}
 \end{equation}
 %
-where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$
+where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$. Letting $E = 100$ and $V = 200$, we calculate that $R = .99588$ and $T = .00412$. However, from the formula above we expect $T$ to be on the order of $10^{-12}$
+
 \subsection{Incident Energy Equal to the Barrier Height}
 
-We now look at the situation in which the incident energy $E$ equals the height of the potential barrier $V$. In this situation, we have that $k_0 = k_1 = \sqrt{2E} $
+We now look at the situation in which the incident energy $E$ equals the height of the potential barrier $V$. In this situation, we have that $k_1 = 0$
+
 
 \section{Kronig-Penney Crystal}
 
@@ -214,5 +216,6 @@ We now look at the potential
   \end{array}
 \right.
 \]
-
+%
+Although this potential yields a Hamiltonian that is non-Hermitian, it does have real eigenvalues 
 \end{document}

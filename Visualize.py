@@ -6,11 +6,13 @@ def heatmap(solution):
     map_val = lambda x : abs(x)**2
     map_row = lambda row : map_val(row)
     prob_density = map_row(solution)
-    fig = plt.figure(figsize=(6, 3.2))
+    fig = plt.figure(figsize=(3.5, 3.2))
+    plt.gcf().subplots_adjust(bottom = 0.15)
     ax = fig.add_subplot(111)
-    ax.set_title('colorMap')
+#    ax.set_title('colorMap')
     ax.set_xlabel('x')
     ax.set_ylabel('time')
+    ax.set_xticks([])
     plt.imshow(prob_density)
     ax.set_aspect('equal')
     cax = fig.add_axes([0.12, 0.1, 0.78, 0.8])
@@ -20,7 +22,7 @@ def heatmap(solution):
     cax.set_frame_on(False)
     plt.colorbar(orientation='vertical')
 	
-    plt.savefig('img.pdf')
+    plt.savefig('img.png')
     plt.show()
 
 def animate_wave(xs, ts, solution, potential):
@@ -36,11 +38,13 @@ def animate_wave(xs, ts, solution, potential):
             minimum = min(minimum, min(arr))
     # Forces potential 0 to align with 0 on the graph
     rng = min(abs(maximum), abs(minimum))
+
     # atan rescaling maps all real numbers to a finite range and also
     # preserves whether a value is positive or negative
     potential = np.arctan(potential/5)
     minp = -np.pi/2
     maxp = np.pi/2
+
     normalized_potential = np.interp(potential, [minp, maxp], [-rng, rng])
     for i in range(ts.get_num_divisions()):
         rplot, = plt.plot(solution[i,:].real, 'r')   # this is how you'd plot a single line...

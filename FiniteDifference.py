@@ -132,6 +132,4 @@ def finite_difference2(xs, ts, psi_init, left_matrix, right_matrix, periodic_bou
         if not periodic_boundary_cond: 
             psi[n+1,0] = 0
             psi[n+1,-1] = 0
-#        psi[n+1,-1] = psi[n+1,0]
-        psi[n+1,:] = WaveFunction.normalize(psi[n+1,:])
     return psi
