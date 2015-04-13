@@ -16,7 +16,7 @@
 
 \begin{abstract}
 
-In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}dinger Equation obtained through the finite difference scheme. Two different methods have been implemented and the results from each algorithm are compared. For simplicity, in this project we let $\hbar = m = \omega = 1$
+In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}dinger Equation obtained through the finite difference scheme. Two different methods have been implemented and the results from each algorithm are compared. For simplicity, in this project we let $\hbar = m = \omega = 1$. This report contains heatmap plots of the amplitude vs time of the solutions to the TDSE, but we encourage the reader to run our code through the GUI to see the solutions animated.
 
 \end{abstract}
 
@@ -25,11 +25,11 @@ In this project, we have analyzed the solutions to the Time Dependent Sch\"{o}di
 \subsection{Comparing Methods}
 
 In this project, we have implemented two different finite difference schemes. The first uses the "obvious" finite difference scheme below
-%\begin{equation}
-%\left[ \frac{\Psi_{j+1}^{n+1} -2 \Psi_j^{n+1} + \Psi_{j-1}^{n+1}}{(\Delta x)^2} \right]
-%\end{equation}
+\begin{equation}
+\left[ \frac{\Psi_{j+1}^{n+1} -2 \Psi_j^{n+1} + \Psi_{j-1}^{n+1}}{(\Delta x)^2} \right] + V_j \Psi_j^{n+1} = i \left[ \frac{\Psi_j^{n+1} + \Psi_j^n}{\Delta t} \right]
+\end{equation}
 
-The second uses a slightly modified approach. The second method is superior because it is stable and unitary. The algorithm for this method is
+The second uses a slightly modified approach. This method is superior because it is stable and unitary. The algorithm for this method is
 
 %\begin{equation}
 %
@@ -37,15 +37,45 @@ The second uses a slightly modified approach. The second method is superior beca
 
 \subsection{Periodic Boundary Conditions}
 
-By applying periodic boundary conditions, we see the particle exit the frame on the right and reappear on the left, as expected
+By applying periodic boundary conditions, we see the particle exit the frame on the right and reappear on the left, as expected. The results from the two 
+different algorithms are shown in Figure 1
+
+% add free particle heat maps
+
+\begin{figure}
+\centering
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{free_alg1}
+\caption{Algorithm 1}
+\end{subfigure}
+%
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{free_alg2}
+\caption{Algorithm 2}
+\end{subfigure}
+
+\caption{Free particle with periodic boundary conditions}
+\end{figure}
 
 \subsection{Zero Boundary Conditions}
 
-By applying zero boundary conditions, we effectively place the particle in the infinite square well. See the analysis in the following section. 
+By applying zero boundary conditions, we effectively place the particle in the infinite square well. For an analysis of this scenario, please see the following section. 
 
 \section{Common Potentials}
 
 \subsection{Infinite Square Well}
+
+We first look at the classic infinite square well potential. This potential is of the form,
+
+\[V(x) = \left\{
+  \begin{array}{lr}
+    0 &  : -\frac{a}{2} \leq x \leq \frac{a}{2} \\
+    \infty & : x < -L , x > L 
+  \end{array}
+\right.
+\]
 
 The eigenvalues for a particle in the infinite square well are
 
@@ -57,6 +87,45 @@ with corresponding eigenfunctions
 \begin{equation}
 \psi_n(x) = \sqrt{\frac{2}{a}} \cos \left( \frac{n\pi}{a} x \right)
 \end{equation}
+
+The first and second eigenstates for both algorihms are shown in Figures 2 and 3                             
+
+\begin{figure}
+\centering
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{well_alg1_eig1}
+\caption{Algorithm 1}
+\end{subfigure}
+%
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{well_alg2_eig1}
+\caption{Algorithm 2}
+\end{subfigure}
+
+\caption{Ground state of the infinite square well}
+\end{figure}
+
+\begin{figure}
+\centering
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{well_alg1_eig2}
+\caption{Algorithm 1}
+\end{subfigure}
+%
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=1.9in]{well_alg2_eig2}
+\caption{Algorithm 2}
+\end{subfigure}
+
+\caption{First excited state of the infinite square well}
+\end{figure}
+
+For this potential, the two algorithms gave the same output. This is due to the fact that these are {\it stationary states}, so the method used 
+to evolve the wavefunction through time did not matter
 
 \subsection{Harmonic Oscillator}
 
@@ -72,21 +141,21 @@ with corresponding eigenfunctions
 \psi_n(x) = \left( \frac{m \omega}{\pi \hbar} \right)^{1/4} \frac{1}{\sqrt{2^n n!}} H_n(x)e^{-x^2/2}
 \end{equation}
 %
-where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates are shown below for the two algorithms.
-Note that the oscillations are periodic, as expected.
+where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates form both algorithms are shown in Figure 4
+Note that the oscillations are periodic, as expected. Also notice how the maximum amplitude of the oscillations decreases throughout time in the first algortihm, and stays constant in the second.
 
 % insert diagrams here
 \begin{figure}
 \centering
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}[h!]{0.3\textwidth}
 \centering
-\includegraphics[width=2in]{img}
+\includegraphics[width=2.9in]{HO_alg1_eig1}
 \caption{Algorithm 1}
 \end{subfigure}
 %
-\begin{subfigure}[t]{0.3\textwidth}
+\begin{subfigure}[h!]{0.3\textwidth}
 \centering
-\includegraphics[width=2in]{img}
+\includegraphics[width=2.9in]{HO_alg2_eig1}
 \caption{Algorithm 2}
 \end{subfigure}
 
@@ -95,11 +164,44 @@ Note that the oscillations are periodic, as expected.
 
 \section{Barrier Potential}
 
+We now look at a potential barrier. In order to examine how a particle will interact with a barrier, we must multiply our initial gaussian wavepacket 
+by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 5 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling} and 
+
+
+\begin{figure}
+\centering
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=2.9in]{barrier_half}
+\caption{E = V/2}
+\end{subfigure}
+%
+\begin{subfigure}[h!]{0.3\textwidth}
+\centering
+\includegraphics[width=2.9in]{barrier_twice}
+\caption{E = 2V}
+\end{subfigure}
+
+\caption{Barrier Potential}
+\end{figure}
+
+
 \subsection{Transmition and Reflection Coefficients}
 
+Analytically, we expect the reflection and transmission coefficients to be of the form
+
+\begin{equation}
+T = \frac{4k_0 k_1 e^{-ia(k_0-k_1)}}{(k_0 - k_1)^2 - e^{2iak_1}(k_0-k1)^2} \hspace{0.2in} R = \frac{(k_0^2-k_1)^2\sin(ak_1)}{2ik_0k_1\cos(ak_1)+(k_0^2+k_1^2)\sin(ak_1)}
+\end{equation}
+%
+where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$
 \subsection{Incident Energy Equal to the Barrier Height}
 
+We now look at the situation in which the incident energy $E$ equals the height of the potential barrier $V$. In this situation, we have that $k_0 = k_1 = \sqrt{2E} $
+
 \section{Kronig-Penney Crystal}
+
+The next potential that we looked at was a periodic array of potential wells, i.e. a Kronig-Penny crystal. 
 
 \section{Non-Hermition Hamiltonian}
 
@@ -107,7 +209,7 @@ We now look at the potential
 
 \[V(x) = \left\{
   \begin{array}{lr}
-    ix &  : -L < x < < L \\
+    ix &  : -L < x  < L \\
     \infty & : x \leq -L , x \geq L 
   \end{array}
 \right.
