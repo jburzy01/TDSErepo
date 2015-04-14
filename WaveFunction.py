@@ -15,7 +15,7 @@ def gaussian_wave():
 
 def traveling_wave(energy):
     k = math.sqrt(2*energy)
-    return lambda x : np.exp(1j*k*x-x**2)
+    return lambda x : np.exp(1j*k*x-x**2/2)
 
 def normalize(vector):
     normconst = 0.0

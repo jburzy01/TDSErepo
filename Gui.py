@@ -70,7 +70,7 @@ def display():
     layout.new_column()
 
     label("Potential:")
-    potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well/Free Particle': Pt.infinite_well(), "Non-Hermitian 1": Pt.non_hermitian()}
+    potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well/Free Particle': Pt.infinite_well(), "Non-Hermitian (Heatmap Only)": Pt.non_hermitian()}
     get_selected_potential = drop_down(potential_options)
 
     label("Barrier width:")
@@ -85,7 +85,7 @@ def display():
     layout.new_column()
 
     label("Travelling gaussian energy:")
-    get_energy = int_var(-1000000,1000000, 1)
+    get_energy = double_var(-1000000,1000000, 1)
 
     label("Initial Wave:")
     wave_options = {'Cosine wave': Wf.cos_wave(), 'Gaussian': Wf.gaussian_wave(), 'Travelling gaussian': traveling_wave_fun}

@@ -90,7 +90,7 @@ with corresponding eigenfunctions
 \psi_n(x) = \sqrt{\frac{2}{a}} \cos \left( \frac{n\pi}{a} x \right)
 \end{equation}
 %
-The first and second eigenstates for both algorihms are shown in Figures 2 and 3. For this potential, the two algorithms gave the same output. This is due to the fact that these are {\it stationary states}, so the method used to evolve the wavefunction through time did not matter. For this potential we observe states with the correct energy eigenvalues.
+The first and second eigenstates for both algorihms are shown in Figures 2 and 3. For this potential, the two algorithms gave the same output. Note that the eigenstates do not evolve in time, as expected. For this potential we observe states with the correct energy eigenvalues.
 
 
 \begin{figure}
@@ -137,7 +137,7 @@ V(x) = \frac{1}{2}m\omega^2x^2
 For simplicity, we let $m = \omega = 1$, so $V(x) = 1/2x^2$. The eigenvalues for a particle in this potential are
 
 \begin{equation}
-E_n \left( n + \frac{1}{2} \right) \hbar \omega = \left( n + \frac{1}{2} \right)
+E_n =  \left( n + \frac{1}{2} \right) \hbar \omega = \left( n + \frac{1}{2} \right)
 \end{equation}
 %
 with corresponding eigenfunctions
@@ -147,7 +147,7 @@ with corresponding eigenfunctions
 \end{equation}
 %
 where $H_n(x)$ is the n\textsuperscript{th}  Hermite Polynomial. The plots of the first two eigenstates form both algorithms are shown in Figure 4 and 5
-Note that the oscillations are periodic, as expected. Also notice how the maximum amplitude of the oscillations decreases throughout time in the first algortihm, and stays constant in the second. Again we observe states with the correct energy eigenvalues.
+Again note that the eigenstates are stationary in time, as expected. Also notice how the maximum amplitude of the oscillations decreases throughout time in the first algortihm, and stays constant in the second. Again we observe states with the correct energy eigenvalues.
 
 % insert diagrams here
 \begin{figure}
@@ -187,7 +187,7 @@ Note that the oscillations are periodic, as expected. Also notice how the maximu
 \section{Barrier Potential}
 
 We now look at a potential barrier. In order to examine how a particle will interact with a barrier, we must multiply our initial gaussian wavepacket 
-by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 6 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = V/2 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling}. 
+by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In this section and those that follow, we will restrict our analysis to the superior finite difference scheme. Figure 6 shows a wavepacket colliding with barriers of different energies. Notice how when $ E = 3V/4 $, some of the wavepacket is still transmitted. Classically, this scenario is forbidden. In quantum mechanics, however, this process is allowed and is known as {\it tunneling}. 
 
 
 \begin{figure}
@@ -195,7 +195,7 @@ by $e^{ikx}$ which results in a gaussian wave packet moving to the right. In thi
 \begin{subfigure}[h!]{0.3\textwidth}
 \centering
 \includegraphics[width=2.9in]{barrier_half}
-\caption{E = V/2}
+\caption{E = 3V/4}
 \end{subfigure}
 %
 \begin{subfigure}[h!]{0.3\textwidth}
@@ -216,7 +216,7 @@ Analytically, we expect the reflection and transmission coefficients to be of th
 T = \frac{4k_0 k_1 e^{-ia(k_0-k_1)}}{(k_0 + k_1)^2 - e^{2iak_1}(k_0-k1)^2} \hspace{0.2in} R = \frac{(k_0^2-k_1^2)\sin(ak_1)}{2ik_0k_1\cos(ak_1)+(k_0^2+k_1^2)\sin(ak_1)}
 \end{equation}
 %
-where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$. Letting $E = 100$ and $V = 200$, we calculate that $R = .99715$ and $T = .00285$. However, from the formula above we expect $T$ to be on the order of $10^{-12}$
+where $k_0 = \sqrt{2mE/\hbar^2} = \sqrt{2E}$ and $k_1 = \sqrt{2m(E-V)/\hbar^2} = \sqrt{2(E-V)}$. Letting $E = 100$ and $V = 200$, we calculate that $T = 3.9125 \times 10^{-11}$. From the formula above we expect $T$ to be $2.0814 \times 10^{-12}$. Thus our results seem relatively consistent. 
 
 \subsection{Incident Energy Equal to the Barrier Height}
 
@@ -232,7 +232,7 @@ We now look at the situation in which the incident energy $E$ equals the height 
 T = \frac{1}{1+ma^2V/2\hbar^2}
 \end{equation}
 %
-For $ E = V = 100$ and $a=1.0$, our program gives us $T = .8450$. However, from the analytical expression we expect that $T = .01961$. Possible reason's for this discrepency are the equations used for the free particle wavepacket. The analytical calculation uses a piecewise superposition of waves
+For $ E = V = 100$ and $a=1.0$, our program gives us $T = .002627$. However, from the analytical expression we expect that $T = .01961$. Possible reasons for this discrepency are the equations used for the free particle wavepacket. The analytical calculation uses a piecewise superposition of waves
 
 \begin{align*}
 \psi_L = A_r e^{ik_0x} + A_l e^{-ik_0x} \hspace{0.2in} x < 0 \\
