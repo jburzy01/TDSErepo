@@ -1,6 +1,12 @@
+#  Visualization Module using Tkinter
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import numpy as np
+
 
 def heatmap(solution):
     map_val = lambda x : abs(x)**2

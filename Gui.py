@@ -1,3 +1,8 @@
+#  Graphics Interface Module using Tkinter
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 from Tkinter import *
 import Potential as Pt
 from Range import Range
@@ -7,6 +12,7 @@ import FiniteDifference
 import Visualize
 import math
 
+# Tkinter Grid Geometry Manager to organize labels and GUI options
 class Layout:
     def __init__(self):
         self.column = 0
@@ -20,10 +26,12 @@ class Layout:
         self.row = 0
         self.column += 1
 
+# display contains member functions to create GUI elements like labels, spinbox and drop down meun.
 def display():
     master = Tk()
     master.wm_title("TDSE Simulator")
     layout = Layout()
+
     def label(text):
         layout.add(Label(master, text=text))
     # Returns a function which takes no arguments and returns the value of the variable
@@ -50,7 +58,9 @@ def display():
     barrier_fun = lambda x : Pt.barrier(float(get_barrier_width()),float(get_barrier_height()))(x)
     crystal_fun = lambda x : Pt.crystal(float(get_crystal_depth()),float(get_crystal_width()))(x)
     traveling_wave_fun = lambda x: Wf.traveling_wave(float(get_energy()))(x) 
+    cos_wave_fun = lambda x: Wf.cos_wave(float(get_width()))(x)
 
+    # ------------ COLUMN 1 ------------- #
     label("Algorithm:")
     algorithm_options = {'Algorithm 1': FiniteDifference.solve1, 'Algorithm 2': FiniteDifference.solve2}
     get_algorithm = drop_down(algorithm_options, default='Algorithm 2')
@@ -69,26 +79,31 @@ def display():
 
     layout.new_column()
 
+    # ------------ COLUMN 2 ------------- #
     label("Potential:")
     potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well/Free Particle': Pt.infinite_well(), "Non-Hermitian (Heatmap Only)": Pt.non_hermitian()}
     get_selected_potential = drop_down(potential_options)
 
     label("Barrier width:")
     get_barrier_width = int_var(1,100000,1)
+
     label("Barrier height:")
     get_barrier_height = int_var(1,100000000,4)
+
     label("Crystal width:")
     get_crystal_width = double_var(0,100000, 0.4)
+
     label("Crystal depth:")
     get_crystal_depth = int_var(1,100000, 5)
 
     layout.new_column()
 
+    # ------------ COLUMN 3 ------------- #
     label("Travelling gaussian energy:")
     get_energy = double_var(-1000000,1000000, 1)
 
     label("Initial Wave:")
-    wave_options = {'Cosine wave': Wf.cos_wave(), 'Gaussian': Wf.gaussian_wave(), 'Travelling gaussian': traveling_wave_fun}
+    wave_options = {'Cosine wave': cos_wave_fun, 'Gaussian': Wf.gaussian_wave(), 'Travelling gaussian': traveling_wave_fun}
     get_selected_wave = drop_down(wave_options)
 
     label("Initial wave offset:")
@@ -103,6 +118,8 @@ def display():
     viz_options = {'Animation': opt_animation, 'Heatmap': opt_heatmap}
     get_selected_viz = drop_down(viz_options, default='Animation')
 
+    # run_simulation is called when the simulate command is issued. 
+    # Program will initialize the solver, the potential and the wave functions from user GUI inputs
     def run_simulation():
         xs = Range(get_space_divisions(), get_width())
         ts = Range(get_time_divisions(), get_max_time())

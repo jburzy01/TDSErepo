@@ -1,14 +1,19 @@
+#  Wave Functions Creation Module
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import numpy as np
 import math
 
+# Wave Functions will always be normalized when initizalized 
 def init(xs, wave_fun):
-    psi = normalize(wave_fun(xs.get_values()))
-#    psi[0] = 0.0
-#    psi[-1] = 0.0
+    psi = normalize(wave_fun(xs.get_values()))  
     return psi
 
-def cos_wave():
-    return lambda x : np.cos((np.pi*x)/10)
+# Ground State
+def cos_wave(width):
+    return lambda x : np.cos((np.pi*x)/(width))
 
 def gaussian_wave():
     return lambda x : np.exp(-x**2/2)

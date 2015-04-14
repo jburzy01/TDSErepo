@@ -1,3 +1,8 @@
+#  Finite Difference Linear System Solving Module
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import numpy as np
 import WaveFunction
 

@@ -1,3 +1,8 @@
+#  Potential Initializing Module
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import numpy as np
 import math
 
@@ -20,7 +25,6 @@ def crystal(depth, width):
         else:
             return (math.floor(x/width) % 2) * (-depth)
     return potential
-
 
 def non_hermitian():
     return lambda x : x+1j*x

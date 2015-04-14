@@ -1,3 +1,8 @@
+#  Main Module - Basic computation, Coefficien Calculation
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import Gui
 import sys
 import Potential as Pt
@@ -38,6 +43,7 @@ def integrate(psi, xs, barrier_size):
 	print "T = ",
 	print transmitted
 
+# Command Line Arguemnt Option
 def main(argv):
 	if argv[0] == "GUI":
 		Gui.display()

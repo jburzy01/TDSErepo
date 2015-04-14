@@ -1,3 +1,9 @@
+#  Range Module - Helper Module to initialize different dicretized level of 
+#                 Finite Difference Method
+#
+#      created by: Jackson, Caleb, Justin
+#      date:       14/13/2015
+
 import numpy
 
 class Range:
