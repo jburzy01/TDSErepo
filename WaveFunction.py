@@ -12,8 +12,11 @@ def init(xs, wave_fun):
     return psi
 
 # Ground State
-def cos_wave(width):
-    return lambda x : np.cos((np.pi*x)/(width))
+def cos_wave(width, es):
+    if es % 2:
+        return lambda x : np.cos((np.pi*x)/(width/es))
+    else: 
+        return lambda x : np.sin((np.pi*x)/(width/es))
 
 def gaussian_wave():
     return lambda x : np.exp(-x**2/2)

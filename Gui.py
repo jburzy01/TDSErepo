@@ -58,7 +58,7 @@ def display():
     barrier_fun = lambda x : Pt.barrier(float(get_barrier_width()),float(get_barrier_height()))(x)
     crystal_fun = lambda x : Pt.crystal(float(get_crystal_depth()),float(get_crystal_width()))(x)
     traveling_wave_fun = lambda x: Wf.traveling_wave(float(get_energy()))(x) 
-    cos_wave_fun = lambda x: Wf.cos_wave(float(get_width()))(x)
+    cos_wave_fun = lambda x: Wf.cos_wave(float(get_width()),float(get_cos_es()))(x)
 
     # ------------ COLUMN 1 ------------- #
     label("Algorithm:")
@@ -83,6 +83,9 @@ def display():
     label("Potential:")
     potential_options = {'KP-Crystal': crystal_fun, 'Harmonic Oscillator': Pt.harmonic_oscillator(), 'Barrier': barrier_fun, 'Infinite Well/Free Particle': Pt.infinite_well(), "Non-Hermitian (Heatmap Only)": Pt.non_hermitian()}
     get_selected_potential = drop_down(potential_options)
+
+    label("Cosine Eigen State:")
+    get_cos_es = int_var(1,10,1)
 
     label("Barrier width:")
     get_barrier_width = int_var(1,100000,1)
